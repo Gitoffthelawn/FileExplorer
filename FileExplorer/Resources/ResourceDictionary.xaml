@@ -6,6 +6,7 @@
     xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
     xmlns:dxr="http://schemas.devexpress.com/winfx/2008/xaml/ribbon"
     xmlns:dxt="http://schemas.devexpress.com/winfx/2008/xaml/core/themekeys"
+    xmlns:dxrt="http://schemas.devexpress.com/winfx/2008/xaml/ribbon/themekeys"
     xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
     xmlns:system="clr-namespace:System;assembly=mscorlib"
     xmlns:common="clr-namespace:FileExplorer.Core"
@@ -39,6 +40,10 @@
             <system:String x:Key="IconFolder">&#xF07C;</system:String>
         </ResourceDictionary>
         <ResourceDictionary>
+            <Style x:Key="{dxrt:LWKey Ribbon.SelectedPageCaptionTextStyle}" TargetType="{x:Type ContentControl}">
+                <Setter Property="FontWeight" Value="{LWThemeValue SemiBold, Win11=Bold}" />
+                <Setter Property="Foreground" Value="{LWThemeValue Brush.Focused, Win11=Brush.Foreground.Primary, Office2019Black=Brush.ControlLight.Foreground}" />
+            </Style>
             <Style x:Key="IconText" TargetType="TextBlock">
                 <Setter Property="FontFamily" Value="/Assets/Fonts/#Font AweSome 5 Free Solid" />
             </Style>

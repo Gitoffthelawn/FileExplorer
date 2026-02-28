@@ -135,7 +135,7 @@ namespace FileExplorer.ViewModel
 
         public bool CanOpenItem(FileModel fileModel)
         {
-            return fileModel != null && fileModel.Parent?.IsRecycleBin == false;
+            return fileModel?.IsRoot == true || fileModel?.Parent?.IsRecycleBin == false;
         }
 
         public void OpenItem(FileModel fileModel)
@@ -153,7 +153,7 @@ namespace FileExplorer.ViewModel
 
         public bool CanOpenInNewTab(FileModel fileModel)
         {
-            return fileModel?.IsDirectory == true && fileModel.Parent?.IsRecycleBin == false;
+            return fileModel?.IsDirectory == true && (fileModel?.IsRoot == true || fileModel.Parent?.IsRecycleBin == false);
         }
 
         public void OpenInNewTab(FileModel fileModel)
@@ -167,7 +167,7 @@ namespace FileExplorer.ViewModel
 
         public bool CanOpenInNewWindow(FileModel fileModel)
         {
-            return fileModel?.IsDirectory == true && fileModel.Parent?.IsRecycleBin == false;
+            return fileModel?.IsDirectory == true && (fileModel?.IsRoot == true || fileModel.Parent?.IsRecycleBin == false);
         }
 
         public void OpenInNewWindow(FileModel fileModel)

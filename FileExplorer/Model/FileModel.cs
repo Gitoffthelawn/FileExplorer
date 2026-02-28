@@ -970,8 +970,8 @@ namespace FileExplorer.Model
                     IsDirectory = true;
                     ParentPath = String.Empty;
 
-                    FileModelCache.TryAdd(shellFolder.Name, this);
-                    FileModelCache.TryAdd(shellFolder.ParsingName, this);
+                    FileModelCache.TryAdd(Name, this);
+                    FileModelCache.TryAdd(FullPath, this);
                 }
 
                 EnumerateChildren();
@@ -1012,8 +1012,8 @@ namespace FileExplorer.Model
                     IsDirectory = true;
                     ParentPath = String.Empty;
 
-                    FileModelCache.TryAdd(shellFolder.Name, this);
-                    FileModelCache.TryAdd(shellFolder.ParsingName, this);
+                    FileModelCache.TryAdd(Name, this);
+                    FileModelCache.TryAdd(FullPath, this);
                 }
 
                 EnumerateChildren();              
@@ -1056,8 +1056,8 @@ namespace FileExplorer.Model
                     IsDirectory = true;
                     ParentPath = String.Empty;
 
-                    FileModelCache.TryAdd(shellFolder.Name, this);
-                    FileModelCache.TryAdd(shellFolder.ParsingName, this);
+                    FileModelCache.TryAdd(Name, this);
+                    FileModelCache.TryAdd(FullPath, this);
                 }
 
                 EnumerateChildren();
@@ -1197,8 +1197,8 @@ namespace FileExplorer.Model
                     IsRecycleBin = true;
                     ParentPath = String.Empty;
 
-                    FileModelCache.TryAdd(shellFolder.Name, this);
-                    FileModelCache.TryAdd(shellFolder.ParsingName, this);
+                    FileModelCache.TryAdd(Name, this);
+                    FileModelCache.TryAdd(FullPath, this);
                 }
             }
 

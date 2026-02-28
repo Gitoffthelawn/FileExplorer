@@ -23,7 +23,7 @@
                         <Binding Path="ShowSystemItems" RelativeSource="{RelativeSource AncestorType=controls:BreadCrumbControl}" />
                     </MultiBinding>
                 </Setter.Value>
-            </Setter>            
+            </Setter>
             <Setter Property="Content" Value="{Binding Name}" />
             <Setter Property="Glyph" Value="{Binding SmallIcon}" />
             <Setter Property="CommandParameter" Value="{Binding}" />

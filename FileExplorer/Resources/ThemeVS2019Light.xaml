@@ -16,14 +16,14 @@
         <Setter Property="HighlightedBorderTemplateInMinimizedRibbon" Value="{StaticResource CaptionBorderTemplate}" />
     </Style>
 
+    <Style x:Key="{dxrt:LWKey Ribbon.NormalPageCaptionTextStyle}" TargetType="{x:Type ContentControl}">
+        <Setter Property="Foreground" Value="{LWThemeValue Brush.Foreground}" />
+    </Style>
+
     <DataTemplate x:Key="{dxt:LWKey DXTabItem.SelectedBackground}">
         <dxi:TabBorder ViewInfo="{Binding}" BackgroundMode="BorderBackground" BorderMode="BorderBrush"
                        BorderThickness="1,1,1,0" BorderMargin="0,-1,1,-1" HoldBorderThickness="2" HoldBorderMargin="0,0,2,2"
                        BorderBrush="{LWThemeValue Brush.Border}" BorderBackground="{LWThemeValue Brush.Control.Background}" />
-    </DataTemplate>
-
-    <DataTemplate x:Key="{dxrt:LWKey RibbonPage.DefaultCaptionContentTemplate}">
-        <TextBlock Text="{Binding}" Foreground="{DynamicResource {dxt:LWKey TextEdit.CaretBrush}}" />
     </DataTemplate>
 
     <ControlTemplate x:Key="{dxrt:LWKey Ribbon.TabPartBorderTemplate}" TargetType="{x:Type ContentControl}">
