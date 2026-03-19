@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.Composition;
+﻿using System.ComponentModel.Composition;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
@@ -47,7 +46,7 @@ namespace FileExplorer.Extension.TextPreview
                 {
                     string text = await reader.ReadToEndAsync();
                     Document = new TextDocument(text);
-                }               
+                }
             }
         }
 

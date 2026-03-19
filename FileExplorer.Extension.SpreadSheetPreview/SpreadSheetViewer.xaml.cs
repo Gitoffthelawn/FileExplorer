@@ -1,44 +1,45 @@
-﻿using System;
-using System.ComponentModel.Composition;
+﻿using System.ComponentModel.Composition;
 using System.IO;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
-using DevExpress.Spreadsheet;
 
 namespace FileExplorer.Extension.SpreadSheetPreview
 {
     [Export(typeof(IPreviewExtension))]
     [ExportMetadata(nameof(IPreviewExtensionMetadata.DisplayName), "Spread Sheet Viewer")]
     [ExportMetadata(nameof(IPreviewExtensionMetadata.SupportedFileTypes), "csv|xls|xlt|xlsx|xltx|xlsb|xlsm|xltm")]
-    [ExportMetadata(nameof(IPreviewExtensionMetadata.Version), "1.0")]
+    [ExportMetadata(nameof(IPreviewExtensionMetadata.Version), "2.0")]
     public partial class SpreadSheetViewer : UserControl, IPreviewExtension
     {
-        public Stream DocumentSource { get; private set; }
+        public Stream Document
+        {
+            get { return (Stream)GetValue(DocumentProperty); }
+            set { SetValue(DocumentProperty, value); }
+        }
+        public static readonly DependencyProperty DocumentProperty =
+            DependencyProperty.Register(nameof(Document), typeof(Stream), typeof(SpreadSheetViewer));
 
         public SpreadSheetViewer()
         {
             InitializeComponent();
         }
 
-        public async Task PreviewFile(string filePath)
+        public Task PreviewFile(string filePath)
         {
-            using (FileStream fileStream = File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-            {
-                DocumentSource = new MemoryStream();
-                await fileStream.CopyToAsync(DocumentSource);
-                DocumentSource.Seek(0, SeekOrigin.Begin);
+            Document = File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete);
 
-                if (filePath.EndsWith(".csv", StringComparison.OrdinalIgnoreCase))
-                    SpreadSheetEditor.LoadDocument(DocumentSource, DocumentFormat.Csv);
-                else
-                    SpreadSheetEditor.LoadDocument(DocumentSource, DocumentFormat.Undefined);
-            }
+            return Task.CompletedTask;
         }
 
         public Task UnloadFile()
         {
-            SpreadSheetEditor.CreateNewDocument();
-            DocumentSource?.Dispose();
+            if (Document != null)
+            {
+                Stream stream = Document;
+                Document = null;
+                stream.Dispose();
+            }
 
             return Task.CompletedTask;
         }

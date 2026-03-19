@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.Composition;
+﻿using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,7 +13,7 @@ namespace FileExplorer.Extension.PdfPreview
     [Export(typeof(IPreviewExtension))]
     [ExportMetadata(nameof(IPreviewExtensionMetadata.DisplayName), "PDF Viewer")]
     [ExportMetadata(nameof(IPreviewExtensionMetadata.SupportedFileTypes), "pdf")]
-    [ExportMetadata(nameof(IPreviewExtensionMetadata.Version), "1.0")]
+    [ExportMetadata(nameof(IPreviewExtensionMetadata.Version), "2.0")]
     public partial class PdfViewer : UserControl, IPreviewExtension
     {
         public Stream Document
@@ -31,23 +32,19 @@ namespace FileExplorer.Extension.PdfPreview
         public static readonly DependencyProperty ZoomFactorProperty =
             DependencyProperty.Register(nameof(ZoomFactor), typeof(double), typeof(PdfViewer), new PropertyMetadata(1.0));
 
+        public List<double> ZoomLevels { get; } = [0.25, 0.50, 0.75, 1.00, 1.25, 1.50, 2.00, 4.00, 5.00];
+
         public PdfViewer()
         {
             InitializeComponent();
         }
 
-        public async Task PreviewFile(string filePath)
+        public Task PreviewFile(string filePath)
         {
             ZoomFactor = 1;
+            Document = File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete);
 
-            using (FileStream fileStream = File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-            {
-                MemoryStream memoryStream = new MemoryStream();
-                await fileStream.CopyToAsync(memoryStream);
-                memoryStream.Seek(0, SeekOrigin.Begin);
-
-                Document = memoryStream;
-            }
+            return Task.CompletedTask;
         }
 
         public Task UnloadFile()

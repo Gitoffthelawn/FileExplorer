@@ -23,6 +23,10 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
     
+  <ItemGroup>
+    <Resource Include="Assets\Search.svg" />
+  </ItemGroup>
+    
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="xcopy /y &quot;$(TargetDir)*.dll&quot; &quot;$(SolutionDir)FileExplorer\bin\$(ConfigurationName)\$(TargetFramework)\PreviewExtensions\$(ProjectName)\&quot;" />
   </Target>

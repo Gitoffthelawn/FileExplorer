@@ -9,7 +9,7 @@ namespace FileExplorer.Extension.RichTextPreview
     [Export(typeof(IPreviewExtension))]
     [ExportMetadata(nameof(IPreviewExtensionMetadata.DisplayName), "Rich Text Viewer")]
     [ExportMetadata(nameof(IPreviewExtensionMetadata.SupportedFileTypes), "doc|docx|docm|dot|dotm|dotx|epub|htm|html|mht|odt|rtf")]
-    [ExportMetadata(nameof(IPreviewExtensionMetadata.Version), "1.0")]
+    [ExportMetadata(nameof(IPreviewExtensionMetadata.Version), "2.0")]
     public partial class RichTextViewer : UserControl, IPreviewExtension
     {
         public Stream Document
@@ -26,25 +26,19 @@ namespace FileExplorer.Extension.RichTextPreview
             set { SetValue(ZoomFactorProperty, value); }
         }
         public static readonly DependencyProperty ZoomFactorProperty =
-            DependencyProperty.Register(nameof(ZoomFactor), typeof(float), typeof(RichTextViewer), new PropertyMetadata(1f));
+            DependencyProperty.Register(nameof(ZoomFactor), typeof(float), typeof(RichTextViewer), new PropertyMetadata(100f));
 
         public RichTextViewer()
         {
             InitializeComponent();
         }
 
-        public async Task PreviewFile(string filePath)
+        public Task PreviewFile(string filePath)
         {
             ZoomFactor = 100f;
+            Document = File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete);
 
-            using (FileStream fileStream = File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-            {
-                MemoryStream memoryStream = new MemoryStream();
-                await fileStream.CopyToAsync(memoryStream);
-                memoryStream.Seek(0, SeekOrigin.Begin);
-
-                Document = memoryStream;
-            }
+            return Task.CompletedTask;
         }
 
         public Task UnloadFile()

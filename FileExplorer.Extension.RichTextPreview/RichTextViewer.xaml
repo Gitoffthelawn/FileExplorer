@@ -10,6 +10,7 @@
 
     <DockPanel>
         <dxb:ToolBarControl DockPanel.Dock="Bottom" Padding="10" Background="Transparent" HorizontalAlignment="Center" AllowQuickCustomization="False">
+            <dxb:BarButtonItem Glyph="{dx:SvgImageSource Size='16,16', Uri=Assets/Search.svg}" Command="{DXCommand '@e(RichTextEditor).ShowSearchForm(``)'}" />
             <dxb:BarEditItem>
                 <dxb:BarEditItem.EditTemplate>
                     <DataTemplate>
@@ -33,7 +34,7 @@
             </dxb:BarStaticItem>
         </dxb:ToolBarControl>
         <dx:LoadingDecorator>
-            <dxre:RichEditControl ReadOnly="True" ShowBorder="False" DocumentSource="{Binding Document}">
+            <dxre:RichEditControl x:Name="RichTextEditor" ReadOnly="True" ShowBorder="False" DocumentSource="{Binding Document}">
                 <dxmvvm:Interaction.Behaviors>
                     <dxmvvm:DependencyPropertyBehavior PropertyName="ActiveView.ZoomFactor" EventName="ZoomChanged" Binding="{DXBinding 'ZoomFactor / 100', BackExpr='float.Parse(@value) * 100', Mode=TwoWay}" />
                 </dxmvvm:Interaction.Behaviors>
