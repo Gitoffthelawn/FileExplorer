@@ -11,9 +11,9 @@
 
     <DockPanel>
         <dxb:ToolBarControl DockPanel.Dock="Bottom" Padding="10" Background="Transparent" HorizontalAlignment="Center" AllowQuickCustomization="False">
-            <dxb:BarButtonItem ToolTip="{x:Static properties:Resources.Search}" Glyph="{dx:SvgImageSource Size='16,16', Uri=Assets/Search.svg}" Command="{Binding ShowFindTextCommand, ElementName=pdfViewer}" />
-            <dxb:BarButtonItem ToolTip="{x:Static properties:Resources.RotateLeft}" Glyph="{dx:SvgImageSource Size='16,16', Uri=Assets/RotateLeft.svg}" Command="{Binding CounterClockwiseRotateCommand, ElementName=pdfViewer}" />
-            <dxb:BarButtonItem ToolTip="{x:Static properties:Resources.RotateRight}" Glyph="{dx:SvgImageSource Size='16,16', Uri=Assets/RotateRight.svg}" Command="{Binding ClockwiseRotateCommand, ElementName=pdfViewer}" />            
+            <dxb:BarButtonItem Padding="8" ToolTip="{x:Static properties:Resources.Search}" Glyph="{dx:SvgImageSource Size='16,16', Uri=Assets/Search.svg}" Command="{Binding ShowFindTextCommand, ElementName=pdfViewer}" />
+            <dxb:BarButtonItem Padding="8" ToolTip="{x:Static properties:Resources.RotateLeft}" Glyph="{dx:SvgImageSource Size='16,16', Uri=Assets/RotateLeft.svg}" Command="{Binding CounterClockwiseRotateCommand, ElementName=pdfViewer}" />
+            <dxb:BarButtonItem Padding="8" ToolTip="{x:Static properties:Resources.RotateRight}" Glyph="{dx:SvgImageSource Size='16,16', Uri=Assets/RotateRight.svg}" Command="{Binding ClockwiseRotateCommand, ElementName=pdfViewer}" />            
             <dxb:BarEditItem Margin="0,0,5,0" EditValue="{Binding CurrentPageNumber, Mode=TwoWay, ElementName=pdfViewer}">
                 <dxb:BarEditItem.EditSettings>
                     <dxe:ButtonEditSettings AllowDefaultButton="False" TextBlock.TextAlignment="Center" MaskType="Numeric" Mask="######0;" MaskUseAsDisplayFormat="True">
@@ -25,8 +25,8 @@
                 </dxb:BarEditItem.EditSettings>
             </dxb:BarEditItem>
             <dxb:BarItemSeparator />
-            <dxb:BarButtonItem ToolTip="{x:Static properties:Resources.ZoomIn}" Glyph="{dx:SvgImageSource Size='16,16', Uri=Assets/ZoomIn.svg}" Command="{Binding ZoomInCommand, ElementName=pdfViewer}" />            
-            <dxb:BarSubItem Content="{Binding ZoomFactor, Converter={dxmvvm:FormatStringConverter FormatString=P0}}">
+            <dxb:BarButtonItem Padding="8" ToolTip="{x:Static properties:Resources.ZoomIn}" Glyph="{dx:SvgImageSource Size='16,16', Uri=Assets/ZoomIn.svg}" Command="{Binding ZoomInCommand, ElementName=pdfViewer}" />            
+            <dxb:BarSubItem Padding="8" Content="{Binding ZoomFactor, Converter={dxmvvm:FormatStringConverter FormatString=P0}}">
                 <dxb:BarItemSelector AllowEmptySelection="True" ItemLinksSource="{Binding ZoomLevels}" SelectedItem="{Binding ZoomFactor}">
                     <dxb:BarItemSelector.ItemTemplate>
                         <DataTemplate>
@@ -37,7 +37,7 @@
                     </dxb:BarItemSelector.ItemTemplate>
                 </dxb:BarItemSelector>
             </dxb:BarSubItem>
-            <dxb:BarButtonItem ToolTip="{x:Static properties:Resources.ZoomOut}" Glyph="{dx:SvgImageSource Size='16,16', Uri=Assets/ZoomOut.svg}" Command="{Binding ZoomOutCommand, ElementName=pdfViewer}" />
+            <dxb:BarButtonItem Padding="8" ToolTip="{x:Static properties:Resources.ZoomOut}" Glyph="{dx:SvgImageSource Size='16,16', Uri=Assets/ZoomOut.svg}" Command="{Binding ZoomOutCommand, ElementName=pdfViewer}" />
         </dxb:ToolBarControl>
         <dxpdf:PdfViewerControl x:Name="pdfViewer" CommandBarStyle="None" ShowStartScreen="False" ZoomMode="PageLevel" HighlightSelectionColor="#7FFFD100"
                                 DocumentSource="{Binding Document, Mode=TwoWay}" ZoomFactor="{Binding ZoomFactor, Mode=TwoWay}" Loaded="OnPdfViewerLoaded">

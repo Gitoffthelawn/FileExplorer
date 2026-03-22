@@ -38,6 +38,8 @@
             <system:String x:Key="IconEdit">&#xF303;</system:String>
             <system:String x:Key="IconClone">&#xF24D;</system:String>
             <system:String x:Key="IconFolder">&#xF07C;</system:String>
+            <system:Double x:Key="{dxt:LWKey TrackBarEdit.LeftStepButtonSize}">24</system:Double>
+            <system:Double x:Key="{dxt:LWKey TrackBarEdit.RightStepButtonSize}">24</system:Double>
         </ResourceDictionary>
         <ResourceDictionary>
             <Style x:Key="{dxrt:LWKey Ribbon.SelectedPageCaptionTextStyle}" TargetType="{x:Type ContentControl}">

@@ -10,7 +10,7 @@
 
     <DockPanel>
         <dxb:ToolBarControl DockPanel.Dock="Bottom" Padding="10" Background="Transparent" HorizontalAlignment="Center" AllowQuickCustomization="False">
-            <dxb:BarButtonItem Glyph="{dx:SvgImageSource Size='16,16', Uri=Assets/Search.svg}" Command="{DXCommand '@e(RichTextEditor).ShowSearchForm(``)'}" />
+            <dxb:BarButtonItem Padding="8" Glyph="{dx:SvgImageSource Size='16,16', Uri=Assets/Search.svg}" Command="{DXCommand '@e(RichTextEditor).ShowSearchForm(``)'}" />
             <dxb:BarEditItem>
                 <dxb:BarEditItem.EditTemplate>
                     <DataTemplate>
@@ -25,10 +25,10 @@
                     </DataTemplate>
                 </dxb:BarEditItem.EditTemplate>
             </dxb:BarEditItem>
-            <dxb:BarStaticItem Margin="0,0,0,7" Content="{Binding ZoomFactor, Converter={dxmvvm:FormatStringConverter FormatString={}{0:00}%}}">
+            <dxb:BarStaticItem Content="{Binding ZoomFactor, Converter={dxmvvm:FormatStringConverter FormatString={}{0:00}%}}">
                 <dxb:BarStaticItem.ContentTemplate>
                     <DataTemplate>
-                        <TextBlock FontSize="14" Text="{Binding}" />
+                        <TextBlock VerticalAlignment="Center" FontSize="14" Text="{Binding}" />
                     </DataTemplate>
                 </dxb:BarStaticItem.ContentTemplate>
             </dxb:BarStaticItem>

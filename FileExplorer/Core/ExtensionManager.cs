@@ -49,6 +49,9 @@ namespace FileExplorer.Core
 
                 foreach (string assemblyFile in Directory.EnumerateFiles(ExtensionDirectory, "FileExplorer.Extension.*.dll", SearchOption.AllDirectories))
                 {
+                    if (assemblyFile.OrdinalEndsWith("resources.dll"))
+                        continue;
+
                     string assemblyName = Path.GetFileNameWithoutExtension(assemblyFile);
                     ExtensionMetadata extensionMetadata = App.Repository.Extensions.FirstOrDefault(x => x.AssemblyName == assemblyName);
 
@@ -57,6 +60,9 @@ namespace FileExplorer.Core
                         AssemblyCatalog assemblyCatalog = new AssemblyCatalog(assemblyFile);
                         CompositionContainer compositionContainer = new CompositionContainer(assemblyCatalog);
                         compositionContainer.ComposeParts(dummyExtensionLoader);
+
+                        if (dummyExtensionLoader.Extension == null)
+                            continue;
 
                         if (extensionMetadata == null)
                         {
@@ -139,7 +145,7 @@ namespace FileExplorer.Core
 
         private class DummyExtensionLoader
         {
-            [Import]
+            [Import(AllowDefault = true)]
             public ExportFactory<IPreviewExtension, IPreviewExtensionMetadata> Extension { get; set; }
         }
     }
