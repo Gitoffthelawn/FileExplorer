@@ -578,7 +578,7 @@
                             </controls:FileListViewControl>
                         </dxdo:LayoutPanel>
                     </dxdo:LayoutGroup>
-                    <dxdo:TabbedGroup Margin="{LWThemeValue Default='4,4,6,4', Win11='4'}" AllowDrag="False" MinWidth="210" ItemWidth="{Binding Settings.RightPaneWidth, Mode=TwoWay, Delay=3000, Converter={common:NumericToGridLengthConverter}}">
+                    <dxdo:TabbedGroup TabContentCacheMode="CacheTabsOnSelecting" Margin="{LWThemeValue Default='4,4,6,4', Win11='4'}" AllowDrag="False" MinWidth="210" ItemWidth="{Binding Settings.RightPaneWidth, Mode=TwoWay, Delay=3000, Converter={common:NumericToGridLengthConverter}}">
                         <dxdo:TabbedGroup.Visibility>
                             <MultiBinding Converter="{common:MultiBooleanToVisibilityConverter}">
                                 <Binding Path="Settings.ShowPreviewPane" />

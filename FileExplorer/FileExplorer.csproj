@@ -49,6 +49,7 @@
 	<Reference Include="Microsoft.VisualBasic" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FileExplorer.Common\FileExplorer.Common.csproj" />
     <ProjectReference Include="..\FileExplorer.Extension\FileExplorer.Extension.csproj" />
   </ItemGroup>
   <ItemGroup>

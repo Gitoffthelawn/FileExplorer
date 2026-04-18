@@ -160,7 +160,7 @@
                     </dxlc:LayoutGroup>
                 </dxlc:LayoutItem>                
             </dxlc:LayoutGroup>
-            <dxlc:LayoutGroup Orientation="Vertical" ItemSpace="10" Header="{Binding Thumbnails, Source={StaticResource ResourceProvider}}">                
+            <dxlc:LayoutGroup Orientation="Vertical" ItemSpace="10" Header="{Binding Thumbnails, Source={StaticResource ResourceProvider}}">
                 <dxlc:LayoutItem Label="{Binding Mode, Source={StaticResource ResourceProvider}}">
                     <dxe:ComboBoxEdit IsTextEditable="False" ApplyItemTemplateToSelectedItem="True"
                                       SelectedIndex="{Binding ThumbnailMode, Source={x:Static settings:Settings.Default}}">

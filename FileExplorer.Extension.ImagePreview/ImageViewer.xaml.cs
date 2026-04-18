@@ -12,14 +12,14 @@ using DevExpress.Mvvm;
 using DevExpress.Utils.Svg;
 using DevExpress.Xpf.Core;
 using DevExpress.Xpf.Core.Native;
-using PhotoSauce.MagicScaler;
+using FileExplorer.Common.Helper;
 
 namespace FileExplorer.Extension.ImagePreview
 {
     [Export(typeof(IPreviewExtension))]
     [ExportMetadata(nameof(IPreviewExtensionMetadata.DisplayName), "Image Viewer")]
     [ExportMetadata(nameof(IPreviewExtensionMetadata.SupportedFileTypes), "avif|bmp|dib|gif|heic|heif|ico|icon|jfif|jpe|jpg|jpeg|jxr|png|rle|svg|tif|tiff|wdp|webp")]
-    [ExportMetadata(nameof(IPreviewExtensionMetadata.Version), "1.0")]
+    [ExportMetadata(nameof(IPreviewExtensionMetadata.Version), "2.0")]
     public partial class ImageViewer : UserControl, IPreviewExtension
     {
         public ImageSource ImageSource
@@ -118,32 +118,14 @@ namespace FileExplorer.Extension.ImagePreview
                 return;
             }
 
-            BitmapImage bitmapImage = null;
-            await Task.Run(() =>
+            ImageSource = await ImageCache.TryGetValue(currentFilePath);
+            if (ImageSource == null)
             {
-                try
+                using (FileStream fileStream = File.Open(currentFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete))
                 {
-                    MemoryStream stream = new MemoryStream();
-                    MagicImageProcessor.ProcessImage(currentFilePath, stream, new ProcessImageSettings { Width = 960, ResizeMode = CropScaleMode.Max });
-                    stream.Position = 0;
-
-                    bitmapImage = new BitmapImage
-                    {
-                        CreateOptions = BitmapCreateOptions.IgnoreColorProfile,
-                        CacheOption = BitmapCacheOption.OnLoad
-                    };
-
-                    bitmapImage.BeginInit();
-                    bitmapImage.StreamSource = stream;
-                    bitmapImage.EndInit();
-                    bitmapImage.Freeze();
+                    ImageSource = await ImageCache.GetOrAddValue(currentFilePath, fileStream);
                 }
-                catch
-                {
-                    bitmapImage = null;
-                }
-            });
-            ImageSource = bitmapImage;
+            }
         }
 
         public Task UnloadFile()

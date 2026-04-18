@@ -1,6 +1,8 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.IO;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Windows.Media.Imaging;
+using System.Windows.Media;
+using FileExplorer.Common.Helper;
 using FileExplorer.Properties;
 using PhotoSauce.MagicScaler;
 
@@ -8,11 +10,9 @@ namespace FileExplorer.Helpers
 {
     public class ThumbnailHelper
     {
-        public static async Task<BitmapImage> GetThumbnailImage(string path)
+        public static async Task<ImageSource> GetThumbnailImage(string path)
         {
-            BitmapImage bitmapImage = null;
-
-            await Task.Run(() =>
+            using (MemoryStream stream = new MemoryStream())
             {
                 try
                 {
@@ -22,28 +22,22 @@ namespace FileExplorer.Helpers
                     settings.Width = Settings.Default.ThumbnailHeight;
                     settings.Height = Settings.Default.ThumbnailHeight;
 
-                    System.IO.MemoryStream stream = new System.IO.MemoryStream();
-                    MagicImageProcessor.ProcessImage(path, stream, settings);
-                    stream.Position = 0;
-
-                    bitmapImage = new BitmapImage
+                    ImageSource imageSource = await ImageCache.TryGetValue(path, settings);
+                    if (imageSource == null)
                     {
-                        CreateOptions = BitmapCreateOptions.IgnoreColorProfile,
-                        CacheOption = BitmapCacheOption.OnLoad
-                    };
+                        using (FileStream fileStream = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete))
+                        {
+                            imageSource = await ImageCache.GetOrAddValue(path, fileStream, settings);
+                        }
+                    }
 
-                    bitmapImage.BeginInit();
-                    bitmapImage.StreamSource = stream;
-                    bitmapImage.EndInit();
-                    bitmapImage.Freeze();
+                    return imageSource;
                 }
                 catch
                 {
-                    bitmapImage = null;
+                    return null;
                 }
-            });
-
-            return bitmapImage;
+            }
         }
 
         public static bool ThumbnailExists(string path)
@@ -51,6 +45,6 @@ namespace FileExplorer.Helpers
             return Regex.Match(path, SupportedImageFormats, RegexOptions.CultureInvariant | RegexOptions.IgnoreCase).Success;
         }
 
-        const string SupportedImageFormats = @"^.+\.(?:(?:avif)|(?:bmp)|(?:dip)|(?:gif)|(?:heic)|(?:heif)|(?:jfif)|(?:jpe)|(?:jpe?g)|(?:jxr)|(?:png)|(?:rle)|(?:tiff?)|(?:wdp)|(?:webp))$";
+        private const string SupportedImageFormats = @"^.+\.(?:(?:avif)|(?:bmp)|(?:dip)|(?:gif)|(?:heic)|(?:heif)|(?:jfif)|(?:jpe)|(?:jpe?g)|(?:jxr)|(?:png)|(?:rle)|(?:tiff?)|(?:wdp)|(?:webp))$";
     }
 }

@@ -8,13 +8,13 @@ using System.Linq;
 using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using DevExpress.Mvvm;
 using DevExpress.Mvvm.CodeGenerators;
 using DevExpress.Mvvm.Native;
 using FileExplorer.Core;
 using FileExplorer.Helpers;
 using FileExplorer.Messages;
+using FileExplorer.Properties;
 using MimeTypes;
 using TagLib;
 using Vanara.Extensions;
@@ -470,20 +470,20 @@ namespace FileExplorer.Model
                 if (ThumbnailHelper.ThumbnailExists(FullPath) == false)
                     return ExtraLargeIcon;
 
-                if (thumbnailNotifyTask == null)
+                if (thumbnailImage == null)
                 {
-                    thumbnailNotifyTask = NotifyTask.Create(ThumbnailHelper.GetThumbnailImage(FullPath));
-                    thumbnailNotifyTask.PropertyChanged += (s, e) =>
+                    thumbnailImage = NotifyTask.Create(ThumbnailHelper.GetThumbnailImage(FullPath));
+                    thumbnailImage.PropertyChanged += (s, e) =>
                     {
-                        if (e.PropertyName == nameof(NotifyTask.IsCompleted) && thumbnailNotifyTask.IsCompleted)
+                        if (e.PropertyName == nameof(NotifyTask.IsCompleted) && thumbnailImage.IsCompleted)
                             RaisePropertyChanged(ThumbnailImageChangedEventArgs);
                     };
                 }
 
-                return thumbnailNotifyTask.IsCompleted ? thumbnailNotifyTask.Result : ExtraLargeIcon;
+                return thumbnailImage.IsCompleted ? thumbnailImage.Result : ExtraLargeIcon;
             }
         }
-        private NotifyTask<BitmapImage> thumbnailNotifyTask;
+        private NotifyTask<ImageSource> thumbnailImage;
 
         public ImageSource ExtraLargeIcon
         {
@@ -936,6 +936,15 @@ namespace FileExplorer.Model
                     }
                 }
             });
+
+            Settings.Default.PropertyChanged += (s, e) =>
+            {
+                if (e.PropertyName.StartsWith("Thumbnail"))
+                {
+                    FileModelCache.Values.ForEach(x => x.thumbnailImage = null);
+                    FileModelCache.Values.ForEach(x => x.RaisePropertyChanged(ThumbnailImageChangedEventArgs));
+                }
+            };
         }
 
         #endregion
