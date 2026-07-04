@@ -113,6 +113,7 @@ The Preview Pane at the rightmost of the application supports preview for the fo
 * Excel Files (.xls, .xlt, .xlsx, .xltx, .xlsb, .xlsm, .xltm, .csv)
 * Text Files (.txt, .xml, .cs, .sql ...)
 * PDF Files (.pdf)
+* Video & Audio Files (.avi, .mp4, .mp3, .mkv, .wmv ...)
 
 Note that some extensions (such as Word and Excel) may take a long time to load. You can disable them in Extension Manager.
 You can also set priority for extensions that can preview the same file types.
