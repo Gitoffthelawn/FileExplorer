@@ -7,7 +7,11 @@ namespace FileExplorer.Common
         public TKey Id { get; }
         public TValue Value { get; set; }
 
-        public Entry(TKey id, TValue value)
+		public Entry()
+        {
+        }
+
+		public Entry(TKey id, TValue value)
         {
             Id = id; 
             Value = value;
@@ -52,8 +56,7 @@ namespace FileExplorer.Common
 
         public bool Remove(TKey key)
         {
-            BsonValue bsonValue = new BsonValue(key);
-            return Collection.Delete(bsonValue);
+            return Collection.Delete(new BsonValue(key));
         }
     }
 }
