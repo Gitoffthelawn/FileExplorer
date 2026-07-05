@@ -61,10 +61,11 @@
                 <dxlc:LayoutItem Label="{Binding Language, Source={StaticResource ResourceProvider}}">
                     <dxe:ListBoxEdit ValueMember="Key" DisplayMember="Value" EditValue="{Binding Language, Source={x:Static settings:Settings.Default}}">
                         <dxe:ListBoxEdit.ItemsSource>
-                            <collections:ArrayList>
+                            <collections:ArrayList>								
                                 <collections:DictionaryEntry Key="de" Value="Deutsch"/>
                                 <collections:DictionaryEntry Key="en" Value="English"/>
                                 <collections:DictionaryEntry Key="tr" Value="Türkçe"/>
+								<collections:DictionaryEntry Key="zh" Value="中國人"/>
                             </collections:ArrayList>
                         </dxe:ListBoxEdit.ItemsSource>
                     </dxe:ListBoxEdit>
