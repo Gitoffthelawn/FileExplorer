@@ -12,7 +12,7 @@ namespace FileExplorer.Extension.VideoPreview.View
 {
     [Export(typeof(IPreviewExtension))]
     [ExportMetadata(nameof(IPreviewExtensionMetadata.DisplayName), "Video Viewer")]
-    [ExportMetadata(nameof(IPreviewExtensionMetadata.SupportedFileTypes), "3g2|3gp|3gp2|3gpp|aac|ac3|aif|aifc|aiff|alac|amr|amv|ape|asf|avi|caf|dav|divx|dts|dv|evo|f4v|flac|flv|hdmov|it|m1v|m2p|m2t|m2ts|m2v|m4a|m4v|mka|mkv|mo3|mod|mov|mp2v|mp3|mp4|mp4v|mpc|mpe|mpeg|mpg|mpv2|mpv4|mtm|mts|mxf|ofr|ofs|oga|ogg|opus|pva|ra|rm|rmvb|s3m|shn|spx|tak|tp|tpr|ts|tta|umx|vob|webm|wmv|wv|xm")]
+    [ExportMetadata(nameof(IPreviewExtensionMetadata.SupportedFileTypes), "3g2|3gp|3gp2|3gpp|aac|ac3|aif|aifc|aiff|alac|amr|amv|ape|asf|avi|caf|dav|divx|dts|dv|evo|f4v|flac|flv|hdmov|it|m1v|m2p|m2t|m2ts|m2v|m4a|m4v|mka|mkv|mo3|mod|mov|mp2v|mp3|mp4|mp4v|mpc|mpe|mpeg|mpg|mpv2|mpv4|mtm|mts|mxf|ofr|ofs|oga|ogg|opus|pva|ra|rm|rmvb|s3m|shn|spx|tak|tp|tpr|ts|tta|umx|vob|webm|wav|wmv|wv|xm")]
     [ExportMetadata(nameof(IPreviewExtensionMetadata.Version), "1.0")]
     public partial class VideoPlayer : UserControl, IPreviewExtension
     {
