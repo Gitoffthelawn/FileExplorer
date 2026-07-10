@@ -146,5 +146,8 @@
     <Setting Name="AutoRestoreSelection" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="LayoutType" Type="FileExplorer.Core.Layout" Scope="User">
+      <Value Profile="(Default)">Details</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

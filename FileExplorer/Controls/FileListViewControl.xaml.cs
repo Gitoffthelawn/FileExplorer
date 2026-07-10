@@ -227,9 +227,12 @@ namespace FileExplorer.Controls
             {
                 SaveLayoutToStream(layoutStream);
 
-                layout.ApplyToSubFolders = applyToSubFolders;
-                layout.LayoutData = layoutStream.ToArray();
-            }
+				layout.LayoutType = LocalSettings.LayoutType;
+				layout.ApplyToSubFolders = applyToSubFolders;
+                layout.LayoutData = layoutStream.ToArray();                
+			}
+
+            LayoutState = LayoutStatus.Folder;
 
             App.Repository.FolderLayouts.Add(layout);
             ShowManageLayoutsDialog();
@@ -237,9 +240,9 @@ namespace FileExplorer.Controls
 
         public void LoadFolderLayout(string folderPath)
         {
-            if (!String.IsNullOrEmpty(HighlightedText) && LastLoadedFolderLayout != null)
+            if (!String.IsNullOrEmpty(HighlightedText) && LayoutState == LayoutStatus.Folder)
             {
-                LoadDefaultLayout();
+                LoadCurrentFolderLayout();
                 return;
             }
 
@@ -264,14 +267,16 @@ namespace FileExplorer.Controls
 
             if (layout != null)
             {
-                if (layout.LayoutStream != null && layout != LastLoadedFolderLayout)
-                {
-                    layout.LayoutStream.Position = 0;
-                    RestoreLayoutFromStream(layout.LayoutStream);
+                if (LayoutState != LayoutStatus.Folder)
+                    SaveCurrentFolderLayout();
 
-                    LastLoadedFolderLayout = layout;
-                }
+                LoadFolderLayout(layout);
             }
+            else
+            {
+				if (LayoutState == LayoutStatus.Folder)
+					LoadCurrentFolderLayout();
+			}
         }
 
         public void SaveSelection()
@@ -315,12 +320,14 @@ namespace FileExplorer.Controls
             }
         }
 
-        public void LoadDefaultLayout()
+		public void LoadDefaultLayout()
         {
-            DefaultLayoutStream.Position = 0;
+			LocalSettings.LayoutType = Settings.Default.LayoutType;
+
+			DefaultLayoutStream.Position = 0;
             RestoreLayoutFromStream(DefaultLayoutStream);
 
-            LastLoadedFolderLayout = null;
+            LayoutState = LayoutStatus.Default;
         }
 
         public void ShowManageLayoutsDialog()
@@ -337,7 +344,48 @@ namespace FileExplorer.Controls
                 dialogService.ShowDialog(MessageButton.OK, Properties.Resources.CustomMenuItems, "CustomMenuView", App.Repository.MenuItems);
         }
 
-        protected override void InitiallyFocusedRowAfterFiltering(object row)
+		protected void SaveCurrentFolderLayout()
+		{
+			CurrentFolderLayout = new FolderLayout { LayoutType = LocalSettings.LayoutType };
+
+			using (MemoryStream layoutStream = new MemoryStream())
+			{
+				SaveLayoutToStream(layoutStream);
+
+				CurrentFolderLayout.LayoutType = LocalSettings.LayoutType;
+				CurrentFolderLayout.LayoutData = layoutStream.ToArray();
+			}
+		}
+
+		protected void LoadCurrentFolderLayout()
+		{
+			if (CurrentFolderLayout != null && CurrentFolderLayout.LayoutStream != null)
+            {
+				LocalSettings.LayoutType = CurrentFolderLayout.LayoutType;
+
+				CurrentFolderLayout.LayoutStream.Position = 0;
+				RestoreLayoutFromStream(CurrentFolderLayout.LayoutStream);
+
+				LayoutState = LayoutStatus.Current;
+			}
+            else
+                LoadDefaultLayout();
+		}
+
+		protected void LoadFolderLayout(FolderLayout folderLayout)
+		{
+			if (folderLayout != null && folderLayout.LayoutStream != null)
+			{
+				LocalSettings.LayoutType = folderLayout.LayoutType;
+
+				folderLayout.LayoutStream.Position = 0;
+				RestoreLayoutFromStream(folderLayout.LayoutStream);
+
+				LayoutState = LayoutStatus.Folder;
+			}
+		}
+
+		protected override void InitiallyFocusedRowAfterFiltering(object row)
         {
             base.InitiallyFocusedRowAfterFiltering(row);
 
@@ -420,23 +468,6 @@ namespace FileExplorer.Controls
             {
                 if (fileListViewControl.LocalSettings.AutoRestoreSelection && e.OldValue != null)
                     fileListViewControl.SaveSelection(e.OldValue.ToString());
-
-                if (e.NewValue != null)
-                {
-                    FolderLayout lastLoadedFolderLayout = fileListViewControl.LastLoadedFolderLayout;
-                    if (lastLoadedFolderLayout == null)
-                        return;
-
-                    string newFolderPath = e.NewValue.ToString();
-
-                    if (newFolderPath.OrdinalEquals(lastLoadedFolderLayout.FolderPath))
-                        return;
-
-                    if (newFolderPath.OrdinalStartsWith(lastLoadedFolderLayout.FolderPath) && lastLoadedFolderLayout.ApplyToSubFolders)
-                        return;
-
-                    fileListViewControl.LoadDefaultLayout();
-                }
             }
         }
 
@@ -452,16 +483,20 @@ namespace FileExplorer.Controls
 
         private static MemoryStream DefaultLayoutStream;
 
-        private FolderLayout LastLoadedFolderLayout;
+		private FolderLayout CurrentFolderLayout;
 
         private DispatcherTimer ClickTimer;
 
-        private object NewClickedItem;
+        private LayoutStatus LayoutState;
+
+		private object NewClickedItem;
 
         private object OldClickedItem;
 
         private long FocusTime;
-    }
+
+		private enum LayoutStatus { Default, Current, Folder }
+	}
 
     public class TableViewEx : TableView
     {

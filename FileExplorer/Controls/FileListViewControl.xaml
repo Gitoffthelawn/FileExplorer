@@ -95,7 +95,7 @@
                             </StackPanel>
                         </Border>
                         <DataTemplate.Triggers>
-                            <DataTrigger Binding="{Binding View.DataContext.Layout}" Value="{x:Static common:Layout.List}">
+                            <DataTrigger Binding="{Binding View.DataContext.Settings.LayoutType}" Value="{x:Static common:Layout.List}">
                                 <Setter TargetName="Container" Property="Width" Value="200" />
                                 <Setter TargetName="Container" Property="Orientation" Value="Horizontal" />
                                 <Setter TargetName="CellEditor" Property="Width" Value="160" />
@@ -103,7 +103,7 @@
                                 <Setter TargetName="IconImage" Property="Height" Value="16" />
                                 <Setter TargetName="IconImage" Property="Source" Value="{Binding Row.SmallIcon}" />
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding View.DataContext.Layout}" Value="{x:Static common:Layout.SmallIcons}">
+                            <DataTrigger Binding="{Binding View.DataContext.Settings.LayoutType}" Value="{x:Static common:Layout.SmallIcons}">
                                 <Setter TargetName="Container" Property="Width" Value="200" />
                                 <Setter TargetName="Container" Property="Orientation" Value="Horizontal" />
                                 <Setter TargetName="CellEditor" Property="Width" Value="160" />
@@ -111,27 +111,27 @@
                                 <Setter TargetName="IconImage" Property="Height" Value="16" />
                                 <Setter TargetName="IconImage" Property="Source" Value="{Binding Row.SmallIcon}" />
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding View.DataContext.Layout}" Value="{x:Static common:Layout.MediumIcons}">
+                            <DataTrigger Binding="{Binding View.DataContext.Settings.LayoutType}" Value="{x:Static common:Layout.MediumIcons}">
                                 <Setter TargetName="CellEditor" Property="HorizontalAlignment" Value="Center" />
                                 <Setter TargetName="IconImage" Property="Width" Value="32" />
                                 <Setter TargetName="IconImage" Property="Height" Value="32" />
                                 <Setter TargetName="IconImage" Property="Source" Value="{Binding Row.MediumIcon}" />
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding View.DataContext.Layout}" Value="{x:Static common:Layout.LargeIcons}">
+                            <DataTrigger Binding="{Binding View.DataContext.Settings.LayoutType}" Value="{x:Static common:Layout.LargeIcons}">
                                 <Setter TargetName="Container" Property="Width" Value="150" />
                                 <Setter TargetName="CellEditor" Property="HorizontalAlignment" Value="Center" />
                                 <Setter TargetName="IconImage" Property="Width" Value="48" />
                                 <Setter TargetName="IconImage" Property="Height" Value="48" />
                                 <Setter TargetName="IconImage" Property="Source" Value="{Binding Row.LargeIcon}" />
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding View.DataContext.Layout}" Value="{x:Static common:Layout.ExtraLargeIcons}">
+                            <DataTrigger Binding="{Binding View.DataContext.Settings.LayoutType}" Value="{x:Static common:Layout.ExtraLargeIcons}">
                                 <Setter TargetName="Container" Property="Width" Value="{DXBinding '360 / $main:App.Dpi'}" />
                                 <Setter TargetName="CellEditor" Property="HorizontalAlignment" Value="Center" />
                                 <Setter TargetName="IconImage" Property="Width" Value="{DXBinding '256 / $main:App.Dpi'}" />
                                 <Setter TargetName="IconImage" Property="Height" Value="{DXBinding '256 / $main:App.Dpi'}" />
                                 <Setter TargetName="IconImage" Property="Source" Value="{Binding Row.ExtraLargeIcon}" />
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding View.DataContext.Layout}" Value="{x:Static common:Layout.Thumbnails}">
+                            <DataTrigger Binding="{Binding View.DataContext.Settings.LayoutType}" Value="{x:Static common:Layout.Thumbnails}">
                                 <Setter TargetName="Container" Property="Width" Value="{DXBinding '$settings:Settings.Default.ThumbnailWidth + 32'}" />
                                 <Setter TargetName="Container" Property="Height" Value="{DXBinding '$settings:Settings.Default.ThumbnailHeight + 32'}" />
                                 <Setter TargetName="CellEditor" Property="HorizontalAlignment" Value="Center" />
@@ -142,7 +142,7 @@
                 </Setter.Value>
             </Setter>
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Layout}" Value="{x:Static common:Layout.List}">
+				<DataTrigger Binding="{Binding Settings.LayoutType}" Value="{x:Static common:Layout.List}">
                     <Setter Property="CardLayout" Value="Columns" />
                 </DataTrigger>
             </Style.Triggers>
@@ -173,7 +173,7 @@
                               HighlightItemOnHover="True" ClipboardMode="Formatted" ClipboardCopyOptions="All"
                               ShowVerticalLines="False" ShowHorizontalLines="False" VerticalScrollbarVisibility="Auto" AutoWidth="True"
                               AllowCascadeUpdate="{Binding Virtualization, Source={x:Static settings:Settings.Default}}"
-                              ShowIndicator="{DXBinding 'Settings.ShowRowNumbers and Layout==$common:Layout.Details'}"
+                              ShowIndicator="{DXBinding 'Settings.ShowRowNumbers and Settings.LayoutType==$common:Layout.Details'}"
                               IndicatorWidth="{DXBinding '(@a($dxg:GridControl).VisibleRowCount.ToString().Length * 6) + 16'}"
                               EditFormPostConfirmation="None" EditFormPostMode="Immediate" NavigationStyle="Row"
                               ShowEditFormOnDoubleClick="False" ShowEditFormOnEnterKey="False" ShowEditFormOnF2Key="False" FocusedRowBorderTemplate="{StaticResource FocusedRowBorderTemplate}"
@@ -271,8 +271,8 @@
             </DXDataTemplateTrigger>
         </DXDataTemplateSelector>
         <DXDataTemplateSelector x:Key="NameCellDisplayTemplateSelector">
-            <DXDataTemplateTrigger Binding="{Binding View.DataContext.Layout}" Value="Details" Template="{StaticResource NameCellDisplayTemplate}" />
-            <DXDataTemplateTrigger Binding="{Binding View.DataContext.Layout}" Value="Content" Template="{StaticResource NameCellDisplayTemplate}" />
+            <DXDataTemplateTrigger Binding="{Binding View.DataContext.Settings.LayoutType}" Value="Details" Template="{StaticResource NameCellDisplayTemplate}" />
+            <DXDataTemplateTrigger Binding="{Binding View.DataContext.Settings.LayoutType}" Value="Content" Template="{StaticResource NameCellDisplayTemplate}" />
         </DXDataTemplateSelector>        
     </dxg:GridControl.Resources>
 
@@ -280,13 +280,13 @@
         <Style TargetType="dxg:GridControl">
             <Setter Property="View" Value="{StaticResource ListView}" />
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Layout}" Value="{x:Static common:Layout.Details}">
+				<DataTrigger Binding="{Binding Settings.LayoutType}" Value="{x:Static common:Layout.Details}">
                     <Setter Property="View" Value="{StaticResource ListView}" />
                 </DataTrigger>
-                <DataTrigger Binding="{Binding Layout}" Value="{x:Static common:Layout.Content}">
+				<DataTrigger Binding="{Binding Settings.LayoutType}" Value="{x:Static common:Layout.Content}">
                     <Setter Property="View" Value="{StaticResource TreeView}" />
                 </DataTrigger>
-                <DataTrigger Binding="{DXBinding 'Layout != $common:Layout.Details and Layout != $common:Layout.Content'}" Value="True">
+				<DataTrigger Binding="{DXBinding 'Settings.LayoutType != $common:Layout.Details and Settings.LayoutType != $common:Layout.Content'}" Value="True">
                     <Setter Property="View" Value="{StaticResource CardView}" />
                 </DataTrigger>
             </Style.Triggers>

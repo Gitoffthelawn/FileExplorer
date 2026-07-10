@@ -230,26 +230,11 @@
                         <dxr:RibbonPageGroup Caption="{Binding Layout, Source={StaticResource ResourceProvider}}">
                             <dxr:RibbonGalleryBarItem DropDownGalleryEnabled="False" Content="{Binding Layout, Source={StaticResource ResourceProvider}}">
                                 <dxr:RibbonGalleryBarItem.Gallery>
-                                    <dxb:Gallery ColCount="3" AllowFilter="False" IsGroupCaptionVisible="False" ItemGlyphSize="16,16">
-                                        <dxb:GalleryItemGroup>
-                                            <dxb:GalleryItem Command="{DXCommand 'Layout=$common:Layout.ExtraLargeIcons'}" IsChecked="{DXBinding 'Layout==$common:Layout.ExtraLargeIcons'}"
-                                                             Caption="{Binding ExtraLargeIcons, Source={StaticResource ResourceProvider}}" common:IconGlyph.Source="ExtraLargeIcons" />
-                                            <dxb:GalleryItem Command="{DXCommand 'Layout=$common:Layout.LargeIcons'}" IsChecked="{DXBinding 'Layout==$common:Layout.LargeIcons'}"
-                                                             Caption="{Binding LargeIcons, Source={StaticResource ResourceProvider}}" common:IconGlyph.Source="LargeIcons" />
-                                            <dxb:GalleryItem Command="{DXCommand 'Layout=$common:Layout.MediumIcons'}" IsChecked="{DXBinding 'Layout==$common:Layout.MediumIcons'}"
-                                                             Caption="{Binding MediumIcons, Source={StaticResource ResourceProvider}}" common:IconGlyph.Source="MediumIcons" />
-                                            <dxb:GalleryItem Command="{DXCommand 'Layout=$common:Layout.SmallIcons'}" IsChecked="{DXBinding 'Layout==$common:Layout.SmallIcons'}"
-                                                             Caption="{Binding SmallIcons, Source={StaticResource ResourceProvider}}" common:IconGlyph.Source="SmallIcons" />
-                                            <dxb:GalleryItem Command="{DXCommand 'Layout=$common:Layout.List'}" IsChecked="{DXBinding 'Layout==$common:Layout.List'}"
-                                                             Caption="{Binding List, Source={StaticResource ResourceProvider}}" common:IconGlyph.Source="List" />
-                                            <dxb:GalleryItem Command="{DXCommand 'Layout=$common:Layout.Details'}" IsChecked="{DXBinding 'Layout==$common:Layout.Details'}"
-                                                             Caption="{Binding Details, Source={StaticResource ResourceProvider}}" common:IconGlyph.Source="Details" />
-                                            <dxb:GalleryItem Command="{DXCommand 'Layout=$common:Layout.Content'}" IsChecked="{DXBinding 'Layout==$common:Layout.Content'}"
-                                                             Caption="{Binding Content, Source={StaticResource ResourceProvider}}" common:IconGlyph.Source="Content" />
-                                            <dxb:GalleryItem Command="{DXCommand 'Layout=$common:Layout.Thumbnails'}" IsChecked="{DXBinding 'Layout==$common:Layout.Thumbnails'}"
-                                                             Caption="{Binding Thumbnails, Source={StaticResource ResourceProvider}}" common:IconGlyph.Source="Thumbnails" />
-                                        </dxb:GalleryItemGroup>
-                                    </dxb:Gallery>
+                                    <dxb:Gallery ItemCheckMode="Single" ColCount="3" AllowFilter="False" IsGroupCaptionVisible="False" ItemGlyphSize="16,16">
+										<dxmvvm:Interaction.Behaviors>
+											<common:GalleryEnumItemsSourceBehavior EnumType="{x:Type common:Layout}" />
+										</dxmvvm:Interaction.Behaviors>
+									</dxb:Gallery>
                                 </dxr:RibbonGalleryBarItem.Gallery>
                             </dxr:RibbonGalleryBarItem>
                             <dxb:BarSubItem Content="{Binding SaveLayout, Source={StaticResource ResourceProvider}}" common:IconGlyph.Source="Save">
@@ -297,7 +282,7 @@
                                               IsChecked="{Binding Settings.ShowCheckBoxes}" 
                                               Glyph="/Assets/SVG/ShowCheckBoxes.svg" LargeGlyph="/Assets/SVG/ShowCheckBoxes.svg" />
                             <dxb:BarCheckItem Content="{Binding ShowRowNumbers, Source={StaticResource ResourceProvider}}"
-                                              IsChecked="{Binding Settings.ShowRowNumbers}" IsVisible="{DXBinding 'Layout==$common:Layout.Details'}"
+                                              IsChecked="{Binding Settings.ShowRowNumbers}" IsVisible="{DXBinding 'Settings.LayoutType==$common:Layout.Details'}"
                                               Glyph="/Assets/SVG/ShowRowNumbers.svg" LargeGlyph="/Assets/SVG/ShowRowNumbers.svg" />
                         </dxr:RibbonPageGroup>
                         <dxr:RibbonPageGroup Caption="{Binding RowsColumns, Source={StaticResource ResourceProvider}}">
@@ -447,7 +432,7 @@
                             <dxb:BarButtonItem x:Name="AddRemoveMenuItems" Content="{Binding AddRemoveMenuItems, Source={StaticResource ResourceProvider}}"
                                                Glyph="/Assets/SVG/AddRemoveMenuItems.svg" LargeGlyph="/Assets/SVG/AddRemoveMenuItems.svg" Command="{DXCommand '@ElementName(FileList).ShowCustomMenuDialog()'}" />
                             <dxb:BarSubItem x:Name="ExpandToLevel" Content="{Binding Expand, Source={StaticResource ResourceProvider}}" common:IconGlyph.Source="Content"
-                                            IsVisible="{DXBinding 'Layout==$common:Layout.Content'}" IsEnabled="{DXBinding '@ElementName(FileList).SelectedItem.IsDirectory'}">                               
+                                            IsVisible="{DXBinding 'Settings.LayoutType==$common:Layout.Content'}" IsEnabled="{DXBinding '@ElementName(FileList).SelectedItem.IsDirectory'}">                               
                                 <dxb:BarButtonItem Content="{DXBinding '@StaticResource(ResourceProvider).Level + ` 1`'}" Command="{DXCommand '@ElementName(FileList).View.ExpandToLevelAsync(1)'}" KeyGesture="CTRL + 1" />
                                 <dxb:BarButtonItem Content="{DXBinding '@StaticResource(ResourceProvider).Level + ` 2`'}" Command="{DXCommand '@ElementName(FileList).View.ExpandToLevelAsync(2)'}" KeyGesture="CTRL + 2" />
                                 <dxb:BarButtonItem Content="{DXBinding '@StaticResource(ResourceProvider).Level + ` 3`'}" Command="{DXCommand '@ElementName(FileList).View.ExpandToLevelAsync(3)'}" KeyGesture="CTRL + 3" />

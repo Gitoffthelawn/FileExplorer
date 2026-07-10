@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Runtime;
 using CommandLine;
+using FileExplorer.Core;
 using FileExplorer.Properties;
 using FileExplorer.Resources;
 using Microsoft.VisualBasic.ApplicationServices;
@@ -18,6 +19,13 @@ namespace FileExplorer
             {
                 Settings.Default.Upgrade();
                 Settings.Default.UpgradeRequired = false;
+
+                if (Settings.Default.Layout != 0)
+                {
+                    Settings.Default.LayoutType = (Layout)Settings.Default.Layout;
+                    Settings.Default.Layout = 0;
+                }
+
                 Settings.Default.Save();
             }
 

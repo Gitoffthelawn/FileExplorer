@@ -597,5 +597,17 @@ namespace FileExplorer.Properties {
                 this["AutoRestoreSelection"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Details")]
+        public global::FileExplorer.Core.Layout LayoutType {
+            get {
+                return ((global::FileExplorer.Core.Layout)(this["LayoutType"]));
+            }
+            set {
+                this["LayoutType"] = value;
+            }
+        }
     }
 }

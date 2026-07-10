@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.IO;
+using FileExplorer.Core;
 using LiteDB;
 
 namespace FileExplorer.Persistence
@@ -12,6 +13,8 @@ namespace FileExplorer.Persistence
         public string FolderPath { get; set; }
 
         public bool ApplyToSubFolders { get; set; }
+
+        public Layout LayoutType { get; set; }
 
         public byte[] LayoutData
         {

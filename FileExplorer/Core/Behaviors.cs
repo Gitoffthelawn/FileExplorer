@@ -5,10 +5,12 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using DevExpress.Data;
 using DevExpress.Mvvm;
+using DevExpress.Mvvm.Native;
 using DevExpress.Mvvm.POCO;
 using DevExpress.Mvvm.UI;
 using DevExpress.Mvvm.UI.Interactivity;
@@ -843,5 +845,37 @@ namespace FileExplorer.Core
         }
 
         private Window MainWindow;
+    }
+
+    public class GalleryEnumItemsSourceBehavior : Behavior<Gallery>
+	{
+        public Type EnumType
+        {
+            get { return (Type)GetValue(EnumTypeProperty); }
+            set { SetValue(EnumTypeProperty, value); }
+        }
+        public static readonly DependencyProperty EnumTypeProperty =
+            DependencyProperty.Register(nameof(EnumType), typeof(Type), typeof(GalleryEnumItemsSourceBehavior));
+
+        protected override void OnAttached()
+		{
+			base.OnAttached();
+
+			GalleryItemGroup galleryItemGroup = new GalleryItemGroup();
+			AssociatedObject.Groups.Add(galleryItemGroup);
+
+			foreach (EnumMemberInfo info in EnumSourceHelperCore.GetEnumSource(EnumType))
+            {
+                GalleryItem galleryItem = new GalleryItem();
+				galleryItemGroup.Items.Add(galleryItem);
+
+				galleryItem.Caption = info.Name;
+                galleryItem.Glyph = info.Image;
+
+				EnumToBooleanConverter converter = new EnumToBooleanConverter();
+				converter.TrueValue = Enum.Parse(EnumType,info.Id.ToString()) as Enum;
+				galleryItem.SetBinding(GalleryItem.IsCheckedProperty, new Binding("Settings.LayoutType") { Converter = converter, Mode = BindingMode.TwoWay });
+            }
+		}
     }
 }

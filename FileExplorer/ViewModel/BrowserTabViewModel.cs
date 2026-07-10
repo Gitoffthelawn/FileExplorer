@@ -40,8 +40,6 @@ namespace FileExplorer.ViewModel
 
         public virtual FileModel CurrentFolder { get; set; }
 
-        public virtual Layout Layout { get; protected set; }
-
         public virtual CriteriaOperator FilterCriteria { get; protected set; }
 
         public virtual FileModelCollection SearchResults { get; protected set; }
@@ -80,8 +78,6 @@ namespace FileExplorer.ViewModel
 
         public BrowserTabViewModel()
         {
-            Layout = (Layout)Settings.Layout;
-
             UpdateFilterCriteria();
             Settings.PropertyChanged += (s, e) =>
             {

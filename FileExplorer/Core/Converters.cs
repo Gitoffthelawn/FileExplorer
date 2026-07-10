@@ -214,6 +214,9 @@ namespace FileExplorer.Core
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            if (value is bool boolValue && boolValue)
+                return TrueValue;
+
             return null;
         }
     }

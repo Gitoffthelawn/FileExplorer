@@ -100,7 +100,7 @@
             <dxlc:LayoutGroup Orientation="Vertical" ItemSpace="10" Header="{Binding View, Source={StaticResource ResourceProvider}}">
                 <dxlc:LayoutItem Label="{Binding Layout, Source={StaticResource ResourceProvider}}">
                     <dxe:ComboBoxEdit IsTextEditable="False" ApplyItemTemplateToSelectedItem="True"
-                                      SelectedIndex="{Binding Layout, Source={x:Static settings:Settings.Default}}">
+                                      EditValue="{Binding LayoutType, Source={x:Static settings:Settings.Default}}">
                         <dxmvvm:Interaction.Behaviors>
                             <dxmvvm:EnumItemsSourceBehavior ImageSize="32,32" EnumType="{x:Type common:Layout}"/>
                         </dxmvvm:Interaction.Behaviors>
